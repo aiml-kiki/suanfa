@@ -1,0 +1,36 @@
+from collections import deque
+
+
+def person_is_seller(name):
+      return name[-1] == 'm'
+
+graph = dict()
+graph["you"] = ["alice", "bob", "claire"]
+graph["bob"] = ["anuj", "peggy"]
+graph["alice"] = ["peggy"]
+graph["claire"] = ["thom", "jonny"]
+graph["anuj"] = []
+graph["peggy"] = []
+graph["thom"] = []
+graph["jonny"] = []
+
+
+def search(name):
+    search_queue = deque()
+    search_queue += graph[name]
+    # 标记已检查过的节点
+    searched = set()
+    while search_queue:
+        person = search_queue.popleft()
+        # 只检查未检查过的节点
+        if person not in searched:
+            if person_is_seller(person):
+                print(person + " is a mango seller!")
+                return True
+            else:
+                search_queue += graph[person]  # 将当前节点的子节点加入队列
+                # 标记
+                searched.add(person)
+    return False
+
+search("you")
