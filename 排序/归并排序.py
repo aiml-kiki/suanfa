@@ -1,30 +1,34 @@
-def mergeSort(arr):
-    if (len(arr) < 2):
-        return arr
+def mergeSort(arr, low, high):
+    if low >= high:
+        return    # 递归结束
 
-    middle = len(arr) // 2
-    left, right = arr[0: middle], arr[middle:]
-
-    return merge(mergeSort(left), mergeSort(right))
-
-
-def merge(left, right):
-    result = []
-    while left and right:
-        if left[0] <= right[0]:
-            result.append(left.pop(0))
+    mid = low + (high - low) // 2
+    mergeSort(arr, low, mid)
+    mergeSort(arr, mid + 1, high)
+    
+    tmp = []
+    left, right = low, mid + 1 # 合并两个有序数组，双指针分别指向两个数组的头部
+    while left <= mid and right <= high:
+        if arr[left] > arr[right]:
+            tmp.append(arr[right])
+            right += 1
 
         else:
-            result.append(right.pop(0))
+            tmp.append(arr[left])
+            left += 1
 
-    while left:
-        result.append(left.pop(0))
-
-    while right:
-        result.append(right.pop(0))
-
-    return result
+    while left <= mid:
+        tmp.append(arr[left])
+        left += 1
+        
+    while right <= high:
+        tmp.append(arr[right])
+        right += 1
+        
+    arr[low: high + 1] = tmp
 
 
 if __name__ == '__main__':
-    print(mergeSort([5, 6, 1, 8, 4, 0]))
+    nums =[5, 6, 1, 8, 4, 0]
+    mergeSort(nums, 0, len(nums) - 1)
+    print(nums)
