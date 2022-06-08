@@ -1,40 +1,35 @@
-def quickSort(arr, left=None, right=None):
-    
-    # 确定子序列起止范围
-    left = 0 if not isinstance(left, (int, float)) else left
-    right = len(arr) - 1 if not isinstance(right, (int, float)) else right
-    
-    # 递归执行分区排序
-    if left < right:
-        partitionIndex = partition(arr, left, right)
-        quickSort(arr, left, partitionIndex - 1)
-        quickSort(arr, partitionIndex + 1, right)
-    
-    return arr
+import random
 
 
-def partition(arr, left, right):
+def partition(arr, low, high):
+    pivot = random.randint(low, high)
+    arr[pivot], arr[low] = arr[low], arr[pivot]
+    pivot = arr[low]
     
-    # 分区并排序 
-    pivot = left  # 基准
-    index = pivot + 1
-    i = index
-    
-    while i <= right:
-        if arr[i] < arr[pivot]:
-            swap(arr, i, index)
-            index += 1
+    left, right = low, high
+    while left < right:
+        while left < right and arr[right] >= pivot:
+            right -= 1
+        arr[left] = arr[right]
         
-        i += 1
+        while left < right and arr[left] <= pivot:
+            left += 1
+        arr[right] = arr[left]
     
-    swap(arr, pivot, index - 1)
+    arr[left] = pivot
     
-    return index - 1
+    return left
 
-
-def swap(arr, i, j):
-    arr[i], arr[j] = arr[j], arr[i]
+def quickSort(arr, low, hight):
+    if low >= hight:
+        return 
+    
+    mid = partition(arr, low, hight)
+    quickSort(arr, low, mid - 1)
+    quickSort(arr, mid + 1, hight)
     
 
 if __name__ == '__main__':
-    print(quickSort([5, 6, 1, 8, 4, 0]))
+    nums =[5, 6, 1, 8, 4, 0]
+    quickSort(nums, 0, len(nums) - 1)
+    print(nums)
