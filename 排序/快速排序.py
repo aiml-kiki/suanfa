@@ -2,10 +2,12 @@ import random
 
 
 def partition(arr, low, high):
-    pivot = random.randint(low, high)
-    arr[pivot], arr[low] = arr[low], arr[pivot]
+    # 随机选择数组中的一个数作为基准，并将其放到数组最前
+    pivot = random.randint(low, high)  
+    arr[pivot], arr[low] = arr[low], arr[pivot]  
     pivot = arr[low]
     
+    # 利用双指针将大于基准的数放到基准的左边，反之。。。
     left, right = low, high
     while left < right:
         while left < right and arr[right] >= pivot:
@@ -21,6 +23,7 @@ def partition(arr, low, high):
     return left
 
 def quickSort(arr, low, hight):
+    # 递归
     if low >= hight:
         return 
     
