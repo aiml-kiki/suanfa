@@ -1,4 +1,5 @@
 def insertionSort(arr):
+
     for i in range(len(arr)):
         preIndex = i - 1  # arr[:i-1] 为有序数组
         current = arr[i]  # 待排序值
