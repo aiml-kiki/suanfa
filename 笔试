@@ -1,0 +1,17 @@
+-- log:  dt、uid、sj、price
+
+select
+    uid,
+    avg(price) avg_price
+
+from (select uid,
+    date(dt) date_,
+    price,
+    rank() over(partition by uid, date(dt), order by dt) rank_
+from log
+where date_ >= (select max(date(dt)) from log) - 7) a
+
+where rank_ = 1
+group by uid
+
+f, 0, 1
